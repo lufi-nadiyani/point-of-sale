@@ -58,7 +58,7 @@ const app = createApp({
                 data = data.filter(item => item.kategori === currentFilter.value);
             }
 
-            // ⭐ URUTKAN BERDASARKAN NAMA (A-Z) - Case insensitive
+            // URUTKAN BERDASARKAN NAMA (A-Z) - Case insensitive
             return data.sort((a, b) => {
                 return a.nama.localeCompare(b.nama, 'id', { sensitivity: 'base' });
             });
@@ -260,5 +260,3 @@ const app = createApp({
 });
 
 app.mount('#app');
-
-console.log('✅ Data Menu (Vue.js) siap - Urut Abjad!');

@@ -294,4 +294,3 @@ const app = createApp({
 });
 
 app.mount('#app');
-console.log('✅ Laporan POS siap!');

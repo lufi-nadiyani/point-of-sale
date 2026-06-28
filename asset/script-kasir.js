@@ -342,5 +342,3 @@ const app = createApp({
 });
 
 app.mount('#app');
-
-console.log('✅ Kasir POS (Vue.js) siap!');

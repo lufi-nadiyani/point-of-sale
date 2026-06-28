@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POS - Kasir</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Vue.js 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- CSS External -->
+    <link rel="stylesheet" href="asset/css/styles kasir.css" />
+</head>
+
+<body class="bg-gray-50 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- ═══ APP VUE ═══ -->
+    <div id="app">
+
+        <!-- ═══ NAVBAR ═══ -->
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap items-center justify-between py-3">
+                    <a class="text-2xl font-bold text-indigo-700 tracking-tight" href="#">POS</a>
+
+                    <button class="block md:hidden text-gray-600 hover:text-gray-900 focus:outline-none"
+                        @click="toggleNav">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+
+                    <div class="w-full md:flex md:items-center md:w-auto" :class="navOpen ? 'block' : 'hidden'"
+                        id="navbarNav">
+                        <ul
+                            class="flex flex-col md:flex-row md:space-x-6 mt-3 md:mt-0 text-sm font-medium text-gray-700">
+                            <li><a class="block py-2 md:py-0 hover:text-indigo-600" href="dashboard.html">Dashboard</a>
+                            </li>
+                            <li><a class="block py-2 md:py-0 text-indigo-600 border-b-2 border-indigo-600 md:border-0"
+                                    href="kasir.html">Kasir</a></li>
+                            <li><a class="block py-2 md:py-0 hover:text-indigo-600" href="data menu.html">Data Menu</a>
+                            </li>
+
+                            <li><a class="block py-2 md:py-0 hover:text-indigo-600" href="laporan.html">Laporan</a></li>
+
+                            <li><a class="block py-2 md:py-0 hover:text-indigo-600" href="akun.html">Akun</a></li>
+                        </ul>
+
+                        <form
+                            class="flex items-center mt-3 md:mt-0 md:ml-6 border border-gray-300 rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-indigo-300">
+                            <input class="w-full md:w-48 px-3 py-1.5 text-sm bg-white focus:outline-none" type="search"
+                                placeholder="Search" />
+                            <button
+                                class="px-3 py-1.5 text-sm font-medium text-green-600 hover:bg-green-50 border-l border-gray-300"
+                                type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <main class="flex-grow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="grid grid-cols-1 lg:grid-cols-7 gap-6">
+
+                    <!-- ═══ MENU (Kiri) ═══ -->
+                    <div class="lg:col-span-4">
+
+                        <!-- Category Buttons -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <button v-for="cat in categories" :key="cat.id"
+                                class="category-btn px-4 py-2 rounded-lg transition flex items-center gap-2"
+                                :class="activeCategory === cat.id ? cat.activeClass : cat.inactiveClass"
+                                @click="activeCategory = cat.id">
+                                <i :class="cat.icon"></i> {{ cat.name }}
+                            </button>
+                        </div>
+
+                        <!-- Menu Items -->
+                        <div v-for="cat in categories" :key="cat.id" v-show="activeCategory === cat.id">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-3">{{ cat.name }}</h4>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                <a href="#" v-for="item in getMenuByCategory(cat.id)" :key="item.nama"
+                                    class="product-card block bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden"
+                                    @click.prevent="tambahKeranjang(item)">
+                                    <div class="h-32 overflow-hidden">
+                                        <img :src="item.gambar" class="w-full h-full object-cover" :alt="item.nama">
+                                    </div>
+                                    <div class="p-2 text-center">
+                                        <div class="text-sm font-medium text-gray-800">{{ item.nama }}</div>
+                                        <div class="text-sm font-semibold" :class="cat.priceClass">{{
+                                            formatHarga(item.harga) }}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- ═══ KASIR (Kanan) ═══ -->
+                    <div class="lg:col-span-3">
+
+                        <!-- Cart Page -->
+                        <div v-show="currentPage === 'cart'" class="bg-white rounded-lg shadow p-4">
+                            <h3 class="text-lg font-bold text-gray-800 mb-3">Keranjang</h3>
+
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Customer</label>
+                                <input type="text" v-model="customerName"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Masukkan nama customer" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">ID Transaksi</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100"
+                                    :value="transactionId" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100"
+                                    :value="tanggal" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kasir</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100"
+                                    :value="userData.nama" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Meja</label>
+                                <button type="button"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg text-left hover:bg-gray-50 transition"
+                                    @click="toggleMejaPopup">
+                                    {{ selectedMeja ? 'Meja ' + selectedMeja : 'Pilih Meja' }}
+                                </button>
+                                <div v-show="mejaPopupOpen"
+                                    class="mt-2 p-3 bg-white border border-gray-200 rounded-lg shadow">
+                                    <div class="grid grid-cols-4 gap-2">
+                                        <button v-for="meja in 12" :key="meja"
+                                            class="meja-option px-2 py-1 border border-blue-500 text-blue-600 rounded hover:bg-blue-500 hover:text-white transition"
+                                            :class="selectedMeja === String(meja).padStart(2, '0') ? 'bg-blue-500 text-white' : ''"
+                                            @click="pilihMeja(String(meja).padStart(2, '0'))">
+                                            {{ String(meja).padStart(2, '0') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cart Table -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="px-2 py-2 text-left">Menu</th>
+                                            <th class="px-2 py-2 text-center">Qty</th>
+                                            <th class="px-2 py-2 text-right">Total</th>
+                                            <th class="px-2 py-2 text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-if="cart.length === 0">
+                                            <td colspan="4" class="text-center py-4 text-gray-400">
+                                                <i class="fa-solid fa-cart-plus text-2xl block mb-1"></i>
+                                                Keranjang masih kosong
+                                            </td>
+                                        </tr>
+                                        <tr v-for="(item, index) in cart" :key="index"
+                                            class="border-b border-gray-100 hover:bg-gray-50">
+                                            <td class="px-2 py-2 text-sm">{{ item.nama }}</td>
+                                            <td class="px-2 py-2 text-center text-sm">{{ item.qty }}</td>
+                                            <td class="px-2 py-2 text-right text-sm font-medium">{{
+                                                formatHarga(item.harga * item.qty) }}</td>
+                                            <td class="px-2 py-2 text-center">
+                                                <button
+                                                    class="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600 transition"
+                                                    @click="hapusItem(index)">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="mt-3 pt-3 border-t border-gray-200">
+                                <h5 class="text-lg font-bold text-gray-800">Total: {{ formatHarga(totalBelanja) }}</h5>
+                            </div>
+
+                            <button type="button"
+                                class="w-full mt-3 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+                                @click="showPayment">
+                                Bayar
+                            </button>
+                        </div>
+
+                        <!-- Payment Page -->
+                        <div v-show="currentPage === 'payment'" class="bg-white rounded-lg shadow p-4">
+                            <h3 class="text-lg font-bold text-gray-800 mb-3">Pembayaran</h3>
+
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Total Tagihan</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100"
+                                    :value="formatHarga(totalBelanja)" readonly>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Metode Pembayaran</label>
+                                <select v-model="paymentMethod"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg" @change="changePayment">
+                                    <option value="">Pilih Metode</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="debit">Debit</option>
+                                    <option value="qris">QRIS</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nominal Pembayaran</label>
+                                <input type="text" v-model="nominal" @input="formatHargaNominal"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg" placeholder="Rp0" />
+                            </div>
+
+                            <div v-show="paymentMethod === 'cash'" class="mb-3">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kembalian</label>
+                                <input type="text"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100"
+                                    :value="kembalian" readonly />
+                            </div>
+
+                            <button type="button"
+                                class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+                                @click="confirmPayment">
+                                Konfirmasi Pembayaran
+                            </button>
+
+                            <button type="button"
+                                class="w-full mt-2 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition"
+                                @click="currentPage = 'cart'">
+                                Kembali
+                            </button>
+                        </div>
+
+                        <!-- Nota Page -->
+                        <div v-show="currentPage === 'nota'" class="bg-white rounded-lg shadow p-4" id="notaPrint">
+                            <h3 class="text-lg font-bold text-gray-800 mb-3">Nota Pembayaran</h3>
+
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <p><strong>ID:</strong> {{ transactionId }}</p>
+                                <p><strong>Tanggal:</strong> {{ tanggal }}</p>
+                                <p><strong>Customer:</strong> {{ customerName || '-' }}</p>
+                                <p><strong>Meja:</strong> {{ selectedMeja || '-' }}</p>
+                                <p><strong>Kasir:</strong> {{ userData.nama }}</p>
+                                <p><strong>Metode:</strong> {{ paymentMethod.toUpperCase() }}</p>
+
+                                <hr class="my-2 border-gray-200">
+
+                                <div id="notaItems">
+                                    <div v-for="item in cart" :key="item.nama"
+                                        class="flex justify-between text-sm py-1 border-b border-gray-100">
+                                        <span>{{ item.nama }} x{{ item.qty }}</span>
+                                        <span>{{ formatHarga(item.harga * item.qty) }}</span>
+                                    </div>
+                                </div>
+
+                                <hr class="my-2 border-gray-200">
+
+                                <h5 class="font-bold">Total: {{ formatHarga(totalBelanja) }}</h5>
+
+                                <div v-if="paymentMethod === 'cash'" class="mt-2 pt-2 border-t border-gray-200">
+                                    <span class="font-medium">Kembalian:</span>
+                                    <span>{{ formatHarga(hitungKembalianNota) }}</span>
+                                </div>
+
+                                <div class="flex gap-2 mt-3">
+                                    <button
+                                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                                        @click="cetakNota">
+                                        <i class="fa-solid fa-print"></i> Cetak
+                                    </button>
+                                    <button
+                                        class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                                        @click="transaksiBaru">
+                                        <i class="fa-solid fa-plus"></i> Transaksi Baru
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- ═══ FOOTER ═══ -->
+        <footer class="bg-gray-900 text-gray-300 mt-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="md:col-span-1">
+                        <div class="text-2xl font-bold text-yellow-400 footer-brand">POS</div>
+                        <p class="text-gray-400 text-sm mt-2 footer-tagline">Rumah makan enak</p>
+                        <div class="flex space-x-3 mt-4">
+                            <a href="#" class="footer-social"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="footer-social"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="footer-social"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="footer-social"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-white footer-heading">Links</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a class="footer-link" href="dashboard.html">Dashboard</a></li>
+                            <li><a class="footer-link" href="kasir.html">Kasir</a></li>
+                            <li><a class="footer-link" href="data menu.html">Data Menu</a></li>
+                            <li><a class="footer-link" href="akun.html">Akun</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-white footer-heading">Laporan</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a class="footer-link" href="laporan.html">Laporan Penjualan</a></li>
+                            <li><a class="footer-link" href="laporan.html">Menu Terlaris</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-white footer-heading">Hubungi Kami</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a class="footer-link" href="tel:+62453125345"><i class="fas fa-phone mr-2"></i>+62
+                                    453-125-345</a></li>
+                            <li><a class="footer-link" href="mailto:POS@gmail.com"><i
+                                        class="fas fa-envelope mr-2"></i>POS@gmail.com</a></li>
+                            <li><a class="footer-link" href="#"><i class="fas fa-map-marker-alt mr-2"></i>Jl. Makan Enak
+                                    No. 123</a></li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <h3 class="font-semibold text-white text-sm footer-heading">Legal</h3>
+                            <ul class="space-y-1 text-xs">
+                                <li><a class="footer-link" href="#">Privacy Policy</a></li>
+                                <li><a class="footer-link" href="#">Terms of Use</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <p class="footer-copy">
+                        &copy; 2026 <span class="text-yellow-400 font-semibold">POS</span>. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- ═══ END APP VUE ═══ -->
+
+    <!-- ═══ JAVASCRIPT VUE (External) ═══ -->
+    <script src="asset/script kasir.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>POS · Login</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Vue.js 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- CSS External -->
+    <link rel="stylesheet" href="asset/css/styles login.css" />
+
+    <!-- Cek Login - Redirect jika sudah login -->
+    <script>
+        (function () {
+            try {
+                const userData = localStorage.getItem('userData');
+                if (userData) {
+                    window.location.href = 'dashboard.html';
+                }
+            } catch (e) {
+                console.log('Cek login error:', e);
+            }
+        })();
+    </script>
+</head>
+
+<body class="bg-gray-50 font-sans antialiased flex flex-col min-h-screen">
+
+    <div id="app">
+
+   
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <main class="flex-grow flex items-center justify-center bg-gray-50 py-8 px-4">
+
+            <!-- Card Login -->
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-md">
+
+                <!-- Header Card -->
+                <div class="login-header">
+                    <div class="login-title">POS</div>
+                    <p class="login-subtitle">Point of Sale System</p>
+                </div>
+
+                <!-- Body Card -->
+                <div class="login-body">
+
+                    <!-- Icon & Sambutan -->
+                    <div class="login-icon-area">
+                        <div class="login-icon-circle">
+                            <i class="fa-solid fa-user-lock"></i>
+                        </div>
+                        <h2 class="login-welcome">Selamat Datang</h2>
+                        <p class="login-desc">Silakan login untuk melanjutkan</p>
+                    </div>
+
+                    <!-- Form -->
+                    <form @submit.prevent="handleLogin">
+
+                        <!-- Username -->
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" v-model="form.username" class="form-input"
+                                placeholder="Masukkan username" required />
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <div class="password-wrapper">
+                                <input :type="showPassword ? 'text' : 'password'" v-model="form.password"
+                                    class="form-input password-input" placeholder="Masukkan password" required />
+                                <button type="button" @click="showPassword = !showPassword" class="password-toggle">
+                                    <i :class="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Error Message -->
+                        <div v-if="errorMessage" class="message-error shake">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span>{{ errorMessage }}</span>
+                        </div>
+
+                        <!-- Success Message -->
+                        <div v-if="successMessage" class="message-success">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>{{ successMessage }}</span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-login" :disabled="loading">
+                            <span v-if="loading" class="spinner"></span>
+                            <span v-else>Login</span>
+                            <span v-if="loading">Memproses...</span>
+                        </button>
+
+                    </form>
+
+                    <!-- Demo Account -->
+                    <div class="demo-account">
+                        <p class="demo-title">Demo Account:</p>
+                        <div class="demo-badges">
+                            <span class="demo-badge" @click="fillDemo('admin','secret')">admin / secret</span>
+                            <span class="demo-badge" @click="fillDemo('kasir1','secret')">kasir1 / secret</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+
+    </div>
+
+    <!-- ═══ JAVASCRIPT VUE (External) ═══ -->
+    <script src="asset/script login.js"></script>
+
+</body>
+
+</html>

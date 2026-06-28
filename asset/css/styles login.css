@@ -1,0 +1,351 @@
+/* ============================================
+   LOGIN POS - STYLE
+   ============================================ */
+
+/* ---------- HEADER LOGIN ---------- */
+.login-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    padding: 20px 24px;
+    text-align: center;
+}
+
+.login-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+}
+
+.login-subtitle {
+    color: #c7d2fe;
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+/* ---------- BODY LOGIN ---------- */
+.login-body {
+    padding: 24px;
+}
+
+/* ---------- ICON ---------- */
+.login-icon-area {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-icon-circle {
+    width: 64px;
+    height: 64px;
+    background: #eef2ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 24px;
+    color: #4f46e5;
+}
+
+.login-welcome {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-top: 10px;
+}
+
+.login-desc {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* ---------- FORM ---------- */
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 13px;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+}
+
+/* ---------- PASSWORD ---------- */
+.password-wrapper {
+    position: relative;
+}
+
+.password-input {
+    padding-right: 40px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+}
+
+.password-toggle:hover {
+    color: #4b5563;
+}
+
+/* ---------- MESSAGES ---------- */
+.message-error {
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.message-success {
+    margin-bottom: 14px;
+    padding: 10px 14px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    color: #16a34a;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ---------- ANIMASI SHAKE ---------- */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* ---------- BUTTON ---------- */
+.btn-login {
+    width: 100%;
+    padding: 10px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-login:hover:not(:disabled) {
+    background: #4338ca;
+}
+
+.btn-login:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* ---------- SPINNER ---------- */
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4f46e5;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- DEMO ACCOUNT ---------- */
+.demo-account {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 12px;
+    color: #9ca3af;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 14px;
+}
+
+.demo-title {
+    font-weight: 500;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.demo-badges {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.demo-badge {
+    background: #f3f4f6;
+    padding: 2px 10px;
+    border-radius: 4px;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.demo-badge:hover {
+    background: #e5e7eb;
+}
+
+/* ---------- FOOTER ---------- */
+.footer-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #facc15;
+    letter-spacing: 1px;
+}
+
+.footer-tagline {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.footer-heading {
+    font-weight: 600;
+    color: #e5e7eb;
+    margin-bottom: 0.75rem;
+}
+
+.footer-link {
+    color: #9ca3af;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.footer-link:hover {
+    color: #facc15;
+}
+
+.footer-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background-color: #374151;
+    color: #d1d5db;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.footer-social:hover {
+    background-color: #facc15;
+    color: #1f2937;
+    transform: translateY(-3px);
+}
+
+.footer-copy {
+    color: #6b7280;
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 480px) {
+    .login-header {
+        padding: 16px 20px;
+    }
+
+    .login-title {
+        font-size: 24px;
+    }
+
+    .login-body {
+        padding: 20px 16px;
+    }
+
+    .login-icon-circle {
+        width: 56px;
+        height: 56px;
+        font-size: 20px;
+    }
+
+    .login-welcome {
+        font-size: 16px;
+    }
+
+    .form-input {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .btn-login {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .demo-badges {
+        flex-direction: column;
+        align-items: center;
+    }
+}

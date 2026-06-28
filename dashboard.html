@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>POS · Dashboard</title>
+
+    <!-- ⭐ CEK LOGIN -->
+    <script>
+        (function () {
+            try {
+                const userData = localStorage.getItem('userData');
+                if (!userData) {
+                    window.location.href = 'index.html';
+                }
+            } catch (e) {
+                window.location.href = 'index.html';
+            }
+        })();
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Vue.js 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- CSS External -->
+    <link rel="stylesheet" href="asset/css/styles dashboard.css" />
+</head>
+
+<body class="bg-gray-50 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- ═══ APP VUE ═══ -->
+    <div id="app">
+
+        <!-- ═══ NAVBAR ═══ -->
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap items-center justify-between py-3">
+                    <div class="flex items-center gap-3">
+                        <a href="#" class="text-2xl font-bold text-indigo-700 tracking-tight">POS</a>
+                        <span class="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
+                            {{ userData.role }}
+                        </span>
+                    </div>
+
+                    <button class="block md:hidden text-gray-600 hover:text-gray-900 focus:outline-none"
+                        @click="toggleNav">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+
+                    <div class="w-full md:flex md:items-center md:w-auto" :class="navOpen ? 'block' : 'hidden'">
+                        <ul
+                           class="flex flex-col md:flex-row md:space-x-6 mt-3 md:mt-0 text-sm font-medium text-gray-700">
+                            <li><a class="block py-2 md:py-0 text-indigo-600 border-b-2 border-indigo-600 md:border-0"
+                                    href="dashboard.html">Dashboard</a></li>
+                            <li><a class="block py-2 md:py-0 hover:text-indigo-600" href="kasir.html">Kasir</a></li>
+                            <li><a class="block py-2 md:py-0 hover:text-indigo-600" href="data menu.html">Data Menu</a>
+                            </li>
+                            <li><a class="block py-2 md:py-0 hover:text-indigo-600" href="laporan.html">Laporan</a>
+                            </li>
+                            <li><a class="block py-2 md:py-0 hover:text-indigo-600" href="akun.html">Akun</a></li>
+                        </ul>
+
+                        <div class="flex items-center gap-3 mt-3 md:mt-0 md:ml-6">
+                            <span class="text-sm text-gray-600 hidden sm:inline">
+                                <i class="fa-regular fa-user mr-1"></i> {{ userData.nama }}
+                            </span>
+                            <button @click="logout" class="text-sm text-red-600 hover:text-red-700 transition">
+                                <i class="fa-solid fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <main class="flex-grow">
+            <!-- Welcome Banner -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-6 text-white">
+                    <h1 class="text-2xl font-bold">Selamat Datang, {{ userData.nama }}!</h1>
+                    <p class="text-indigo-100 mt-1">Anda login sebagai <span class="font-semibold">{{ userData.role
+                            }}</span></p>
+                    <p v-if="userData.shift" class="text-indigo-100 text-sm">Shift: {{ userData.shift }}</p>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-white shadow rounded-lg p-4 stat-card-hover border border-gray-100">
+                        <h6 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Total Penjualan</h6>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1">Rp 1.250.000</h3>
+                    </div>
+                    <div class="bg-white shadow rounded-lg p-4 stat-card-hover border border-gray-100">
+                        <h6 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Orders</h6>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1">120</h3>
+                    </div>
+                    <div class="bg-white shadow rounded-lg p-4 stat-card-hover border border-gray-100">
+                        <h6 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Menu Items</h6>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1">25</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+                <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 text-sm">
+                            <thead class="bg-gray-800 text-white">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">ID</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Meja</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Tanggal</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Menu</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Qty</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Total</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Metode Bayar</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                                <tr v-for="(item, index) in transactions" :key="index" class="hover:bg-gray-50">
+                                    <td class="px-4 py-3 whitespace-nowrap">{{ item.id }}</td>
+                                    <td class="px-4 py-3">{{ item.meja }}</td>
+                                    <td class="px-4 py-3">{{ item.tanggal }}</td>
+                                    <td class="px-4 py-3">{{ item.menu }}</td>
+                                    <td class="px-4 py-3">{{ item.qty }}</td>
+                                    <td class="px-4 py-3">{{ item.total }}</td>
+                                    <td class="px-4 py-3">{{ item.metode }}</td>
+                                    <td class="px-4 py-3">
+                                        <span class="badge" :class="item.statusClass">{{ item.status }}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </main>
+
+        <!-- ═══ FOOTER ═══ -->
+        <footer class="bg-gray-900 text-gray-300 mt-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div class="md:col-span-1">
+                        <div class="text-2xl font-bold text-yellow-400 footer-brand">POS</div>
+                        <p class="text-gray-400 text-sm mt-2 footer-tagline">Rumah makan enak</p>
+                        <div class="flex space-x-3 mt-4">
+                            <a href="#" class="footer-social"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="footer-social"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="footer-social"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="footer-social"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+        
+                    <div>
+                        <h3 class="font-semibold text-white footer-heading">Links</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a class="footer-link" href="dashboard.html">Dashboard</a></li>
+                            <li><a class="footer-link" href="kasir.html">Kasir</a></li>
+                            <li><a class="footer-link" href="data menu.html">Data Menu</a></li>
+                            <li><a class="footer-link" href="akun.html">Akun</a></li>
+                        </ul>
+                    </div>
+        
+                    <div>
+                        <h3 class="font-semibold text-white footer-heading">Laporan</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a class="footer-link" href="laporan.html">Laporan Penjualan</a></li>
+                            <li><a class="footer-link" href="laporan.html">Menu Terlaris</a></li>
+                        </ul>
+                    </div>
+        
+                    <div>
+                        <h3 class="font-semibold text-white footer-heading">Hubungi Kami</h3>
+                        <ul class="space-y-2 text-sm">
+                            <li><a class="footer-link" href="tel:+62453125345"><i class="fas fa-phone mr-2"></i>+62
+                                    453-125-345</a></li>
+                            <li><a class="footer-link" href="mailto:POS@gmail.com"><i
+                                        class="fas fa-envelope mr-2"></i>POS@gmail.com</a></li>
+                            <li><a class="footer-link" href="#"><i class="fas fa-map-marker-alt mr-2"></i>Jl. Makan Enak
+                                    No. 123</a></li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700">
+                            <h3 class="font-semibold text-white text-sm footer-heading">Legal</h3>
+                            <ul class="space-y-1 text-xs">
+                                <li><a class="footer-link" href="#">Privacy Policy</a></li>
+                                <li><a class="footer-link" href="#">Terms of Use</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="border-t border-gray-800">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <p class="footer-copy">
+                        &copy; 2026 <span class="text-yellow-400 font-semibold">POS</span>. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- ═══ END APP VUE ═══ -->
+
+    <!-- ═══ JAVASCRIPT VUE (External) ═══ -->
+    <script src="asset/script.js"></script>
+
+</body>
+
+</html>

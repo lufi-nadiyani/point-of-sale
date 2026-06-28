@@ -1,0 +1,163 @@
+/* ============================================
+   STYLE LAPORAN
+   ============================================ */
+
+/* ---------- ELEMEN YANG TIDAK DICETAK ---------- */
+.no-print {
+    display: block;
+}
+
+/* ---------- ELEMEN YANG DICETAK ---------- */
+.print-header,
+.print-footer {
+    display: none;
+}
+
+* ---------- FOOTER ---------- */ .footer-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #facc15;
+    letter-spacing: 1px;
+}
+
+.footer-tagline {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.footer-heading {
+    font-weight: 600;
+    color: #e5e7eb;
+    margin-bottom: 0.75rem;
+}
+
+.footer-link {
+    color: #9ca3af;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.footer-link:hover {
+    color: #facc15;
+}
+
+.footer-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background-color: #374151;
+    color: #d1d5db;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.footer-social:hover {
+    background-color: #facc15;
+    color: #1f2937;
+    transform: translateY(-3px);
+}
+
+.footer-copy {
+    color: #6b7280;
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 0;
+}
+
+/* ---------- PRINT STYLE ---------- */
+@media print {
+
+    /* Sembunyikan semua elemen no-print */
+    .no-print {
+        display: none !important;
+    }
+
+    /* Tampilkan header & footer print */
+    .print-header,
+    .print-footer {
+        display: block !important;
+    }
+
+    /* Style untuk print */
+    body {
+        background: white !important;
+        padding: 20px !important;
+    }
+
+    .shadow {
+        box-shadow: none !important;
+    }
+
+    .border {
+        border: 1px solid #ddd !important;
+    }
+
+    .bg-gray-800 {
+        background: #1f2937 !important;
+        color: white !important;
+    }
+
+    .bg-white {
+        background: white !important;
+    }
+
+    /* Summary cards di print */
+    .print-summary {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 16px !important;
+    }
+
+    .print-summary>div {
+        border: 1px solid #ddd !important;
+        padding: 12px !important;
+        border-radius: 8px !important;
+    }
+
+    /* Total row */
+    tfoot td {
+        border-top: 2px solid #000 !important;
+    }
+
+    /* Warna badge tetap */
+    .bg-green-100 {
+        background: #dcfce7 !important;
+        color: #166534 !important;
+    }
+
+    .bg-purple-100 {
+        background: #f3e8ff !important;
+        color: #6b21a8 !important;
+    }
+
+    .bg-blue-100 {
+        background: #dbeafe !important;
+        color: #1e40af !important;
+    }
+
+    .bg-red-100 {
+        background: #fee2e2 !important;
+        color: #991b1b !important;
+    }
+
+    .footer-brand {
+        font-size: 1.75rem;
+    }
+
+    .footer-heading {
+        margin-top: 0.5rem;
+    }
+
+    .footer-social {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+}

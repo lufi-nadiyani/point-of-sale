@@ -1,0 +1,126 @@
+/* ============================================
+   CUSTOM STYLE DATA MENU
+   ============================================ */
+
+/* ---------- BADGE KATEGORI ---------- */
+.badge-makanan {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge-minuman {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+/* ⭐ SNACK = UNGU (sama seperti di kasir) */
+.badge-snack {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    background-color: #f3e8ff;
+    color: #6b21a8;
+}
+
+/* ---------- GAMBAR MENU ---------- */
+.menu-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+
+/* ---------- FOOTER ---------- */
+.footer-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #facc15;
+    letter-spacing: 1px;
+}
+
+.footer-tagline {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.footer-heading {
+    font-weight: 600;
+    color: #e5e7eb;
+    margin-bottom: 0.75rem;
+}
+
+.footer-link {
+    color: #9ca3af;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.footer-link:hover {
+    color: #facc15;
+}
+
+.footer-social {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background-color: #374151;
+    color: #d1d5db;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.footer-social:hover {
+    background-color: #facc15;
+    color: #1f2937;
+    transform: translateY(-3px);
+}
+
+.footer-copy {
+    color: #6b7280;
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 640px) {
+    .menu-img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .footer-brand {
+        font-size: 1.75rem;
+    }
+
+    .footer-heading {
+        margin-top: 0.5rem;
+    }
+
+    .footer-social {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
+}

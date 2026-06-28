@@ -27,11 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (savedUser) {
                     userData.value = JSON.parse(savedUser);
                 } else {
-                    window.location.href = 'login.html';
+                    window.location.href = 'index.html';
                 }
             } catch (e) {
                 console.log('Gagal load user data');
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
 
             // ============================================
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
             function logout() {
                 if (confirm('Yakin ingin logout?')) {
                     localStorage.removeItem('userData');
-                    window.location.href = 'login.html';
+                    window.location.href = 'index.html';
                 }
             }
 
@@ -110,5 +110,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Mount Vue app
     app.mount('#app');
-    console.log('✅ Dashboard POS siap!');
+
 });

@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (savedUser) {
                     userData.value = JSON.parse(savedUser);
                 } else {
-                    window.location.href = 'login.html';
+                    window.location.href = 'index.html';
                 }
             } catch (e) {
-                window.location.href = 'login.html';
+                window.location.href = 'index.html';
             }
 
             // ============================================
@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (confirm('Yakin ingin logout?')) {
                     localStorage.removeItem('userData');
-                    window.location.href = 'login.html';
+                    window.location.href = 'index.html';
                 }
             }
 
@@ -268,5 +268,4 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     app.mount('#app');
-    console.log('✅ Akun POS siap!');
 });

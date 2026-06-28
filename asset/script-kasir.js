@@ -97,7 +97,7 @@ const app = createApp({
         // COMPUTED
         // ============================================
         const transactionId = computed(() => {
-            return `TRX${String(transactionCounter.value).padStart(3, '0')}`;
+            return `P${String(transactionCounter.value).padStart(3, '0')}`;
         });
 
         const tanggal = computed(() => {

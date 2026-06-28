@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // ============================================
             const transactions = ref([
                 {
-                    id: 'TRX001',
+                    id: 'P001',
                     meja: '1',
                     tanggal: '24/06/2026',
                     menu: 'Nasi Goreng',
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     statusClass: 'badge-success'
                 },
                 {
-                    id: 'TRX002',
+                    id: 'P002',
                     meja: '2',
                     tanggal: '24/06/2026',
                     menu: 'Es Teh',
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     statusClass: 'badge-success'
                 },
                 {
-                    id: 'TRX003',
+                    id: 'P003',
                     meja: '3',
                     tanggal: '24/06/2026',
                     menu: 'Mie Ayam',
